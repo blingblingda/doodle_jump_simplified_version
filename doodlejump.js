@@ -20,6 +20,9 @@ let doodler = {
   height: doodlerHeight,
 };
 
+//physics
+let velocityX = 0;
+
 window.onload = function () {
   board = document.querySelector("#board");
   board.height = boardHeight;
@@ -48,6 +51,7 @@ window.onload = function () {
   doodlerLeftImg.src = "./assets/doodler-left.png";
 
   requestAnimationFrame(update);
+  document.addEventListener("keydown", moveDoodler);
 };
 
 function update() {
@@ -61,4 +65,14 @@ function update() {
     doodler.width,
     doodler.height
   );
+}
+
+function moveDoodler(e) {
+  if (e.code == "ArrowRight" || e.code == "KeyD") {
+    velocityX = 4;
+    doodler.img = doodlerRightImg;
+  } else if (e.code == "ArrowLeft" || e.code == "KeyA") {
+    velocityX = -4;
+    doodler.img = doodlerLeftImg;
+  }
 }

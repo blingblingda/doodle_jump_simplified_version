@@ -80,6 +80,7 @@ function update() {
     doodler.x = boardWidth;
   }
 
+  velocityY += gravity;
   doodler.y += velocityY;
 
   context.drawImage(

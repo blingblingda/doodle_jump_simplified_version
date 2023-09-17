@@ -1,13 +1,13 @@
 //board
 let board;
-let boardWith = 360;
+let boardWidth = 360;
 let boardHeight = 576;
 let context;
 
 //doodler
-let doodlerWith = 46;
+let doodlerWidth = 46;
 let doodlerHeight = 46;
-let doodlerX = boardWith / 2 - doodlerWith / 2;
+let doodlerX = boardWidth / 2 - doodlerWidth / 2;
 let doodlerY = (boardHeight * 7) / 8 - doodlerHeight;
 let doodlerRightImg;
 let doodlerLeftImg;
@@ -16,7 +16,7 @@ let doodler = {
   img: null,
   x: doodlerX,
   y: doodlerY,
-  width: doodlerWith,
+  width: doodlerWidth,
   height: doodlerHeight,
 };
 
@@ -26,7 +26,7 @@ let velocityX = 0;
 window.onload = function () {
   board = document.querySelector("#board");
   board.height = boardHeight;
-  board.width = boardWith;
+  board.width = boardWidth;
   context = board.getContext("2d");
 
   //draw doodler
@@ -60,6 +60,11 @@ function update() {
 
   //task logic
   doodler.x += velocityX;
+  if (doodler.x > boardWidth) {
+    doodler.x = 0;
+  } else if (doodler.x + doodler.width < 0) {
+    doodler.x = boardWidth;
+  }
   context.drawImage(
     doodler.img,
     doodler.x,

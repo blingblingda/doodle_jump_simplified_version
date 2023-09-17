@@ -94,6 +94,9 @@ function update() {
   //platforms
   for (let i = 0; i < platformArray.length; i++) {
     let platform = platformArray[i];
+    if (detectCollision(doodler, platform) && velocityY >= 0) {
+      velocityY = initialVelocityY;
+    }
     context.drawImage(
       platform.img,
       platform.x,
@@ -137,4 +140,13 @@ function placePlatforms() {
   };
 
   platformArray.push(platform);
+}
+
+function detectCollision(a, b) {
+  return (
+    a.x < b.x + b.width &&
+    a.x + a.width > b.x &&
+    a.y < b.y + b.height &&
+    a.y + a.height > b.y
+  );
 }

@@ -22,6 +22,9 @@ let doodler = {
 
 //physics
 let velocityX = 0;
+let velocityY = 0;
+let initialVelocityY = -8;
+let gravity = 0.4;
 
 //platforms
 let platformArray = [];
@@ -59,6 +62,7 @@ window.onload = function () {
   platformImg = new Image();
   platformImg.src = "./assets/platform.png";
 
+  velocityY = initialVelocityY;
   placePlatforms();
   requestAnimationFrame(update);
   document.addEventListener("keydown", moveDoodler);
@@ -75,6 +79,9 @@ function update() {
   } else if (doodler.x + doodler.width < 0) {
     doodler.x = boardWidth;
   }
+
+  doodler.y += velocityY;
+
   context.drawImage(
     doodler.img,
     doodler.x,

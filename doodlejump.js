@@ -38,10 +38,6 @@ window.onload = function () {
   board.width = boardWidth;
   context = board.getContext("2d");
 
-  //draw doodler
-  // context.fillStyle = "green";
-  // context.fillRect(doodler.x, doodler.y, doodler.width, doodler.height);
-
   //load images
   doodlerRightImg = new Image();
   doodlerRightImg.src = "./assets/doodler-right.png";

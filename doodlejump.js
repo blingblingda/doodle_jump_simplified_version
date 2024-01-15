@@ -19,6 +19,9 @@ let doodler = {
   height: doodlerHeight,
 };
 
+//physics
+let velocityX = 0;
+
 window.onload = () => {
   //set up the board
   let board = document.querySelector("#board");
@@ -42,4 +45,40 @@ window.onload = () => {
       doodler.height
     );
   };
+
+  //Game loop
+  requestAnimationFrame(update);
+  document.addEventListener("keydown", moveDoodler);
+};
+
+const update = () => {
+  requestAnimationFrame(update);
+  ctx.clearRect(0, 0, boardWidth, boardHeight);
+
+  //draw a doodler over and over again
+  doodler.x += velocityX;
+  if (doodler.x > boardWidth) {
+    doodler.x = 0;
+  } else if (doodler.x + doodler.width < 0) {
+    doodler.x = boardWidth;
+  }
+
+  ctx.drawImage(
+    doodler.img,
+    doodler.x,
+    doodler.y,
+    doodler.width,
+    doodler.height
+  );
+};
+
+const moveDoodler = (e) => {
+  console.log(e.code);
+  if (e.code === "KeyD" || e.code === "ArrowRight") {
+    velocityX = 4;
+    doodler.img = doodlerRightImg;
+  } else if (e.code === "KeyA" || e.code === "ArrowLeft") {
+    velocityX = -4;
+    doodler.img = doodlerLeftImg;
+  }
 };

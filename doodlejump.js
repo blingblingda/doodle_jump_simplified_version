@@ -19,6 +19,12 @@ let doodler = {
   height: doodlerHeight,
 };
 
+//platforms
+let platformArr = [];
+let platformImg;
+let platformWidth = 60;
+let platformHeight = 18;
+
 //physics
 let velocityX = 0;
 
@@ -46,6 +52,11 @@ window.onload = () => {
     );
   };
 
+  //load platform img
+  platformImg = new Image();
+  platformImg.src = "./assets/platform.png";
+  placePlatforms();
+
   //Game loop
   requestAnimationFrame(update);
   document.addEventListener("keydown", moveDoodler);
@@ -70,6 +81,18 @@ const update = () => {
     doodler.width,
     doodler.height
   );
+
+  //draw platforms
+  for (let i = 0; i < platformArr.length; i++) {
+    let platform = platformArr[i];
+    ctx.drawImage(
+      platform.img,
+      platform.x,
+      platform.y,
+      platform.width,
+      platform.height
+    );
+  }
 };
 
 const moveDoodler = (e) => {
@@ -81,4 +104,28 @@ const moveDoodler = (e) => {
     velocityX = -4;
     doodler.img = doodlerLeftImg;
   }
+};
+
+const placePlatforms = () => {
+  platformArr = [];
+
+  platform = {
+    img: platformImg,
+    x: boardWidth / 2,
+    y: boardHeight - 50,
+    width: platformWidth,
+    height: platformHeight,
+  };
+
+  platformArr.push(platform);
+
+  platform = {
+    img: platformImg,
+    x: boardWidth / 2,
+    y: boardHeight - 150,
+    width: platformWidth,
+    height: platformHeight,
+  };
+
+  platformArr.push(platform);
 };

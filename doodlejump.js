@@ -72,7 +72,6 @@ const update = () => {
   ctx.clearRect(0, 0, boardWidth, boardHeight);
 
   //draw a doodler over and over again
-
   velocityY += gravity;
   doodler.y += velocityY;
   doodler.x += velocityX;
@@ -93,6 +92,9 @@ const update = () => {
   //draw platforms
   for (let i = 0; i < platformArr.length; i++) {
     let platform = platformArr[i];
+    if (detectCollision(doodler, platform)) {
+      velocityY = initialVelocityY;
+    }
     ctx.drawImage(
       platform.img,
       platform.x,
@@ -140,4 +142,13 @@ const placePlatforms = () => {
 
     platformArr.push(platform);
   }
+};
+
+const detectCollision = (a, b) => {
+  return (
+    a.x < b.x + b.width &&
+    a.x + a.width > b.x &&
+    a.y < b.y + b.height &&
+    a.y + a.height > b.y
+  );
 };

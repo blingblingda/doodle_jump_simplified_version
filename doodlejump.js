@@ -92,7 +92,7 @@ const update = () => {
   //draw platforms
   for (let i = 0; i < platformArr.length; i++) {
     let platform = platformArr[i];
-    if (detectCollision(doodler, platform)) {
+    if (detectCollision(doodler, platform) && velocityY >= 0) {
       velocityY = initialVelocityY;
     }
     ctx.drawImage(

@@ -27,6 +27,9 @@ let platformHeight = 18;
 
 //physics
 let velocityX = 0;
+let velocityY = 0;
+let initialVelocityY = -8;
+let gravity = 0.4;
 
 window.onload = () => {
   //set up the board
@@ -57,6 +60,8 @@ window.onload = () => {
   platformImg.src = "./assets/platform.png";
   placePlatforms();
 
+  velocityY = initialVelocityY;
+
   //Game loop
   requestAnimationFrame(update);
   document.addEventListener("keydown", moveDoodler);
@@ -67,6 +72,9 @@ const update = () => {
   ctx.clearRect(0, 0, boardWidth, boardHeight);
 
   //draw a doodler over and over again
+
+  velocityY += gravity;
+  doodler.y += velocityY;
   doodler.x += velocityX;
   if (doodler.x > boardWidth) {
     doodler.x = 0;

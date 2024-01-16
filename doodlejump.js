@@ -109,6 +109,7 @@ const moveDoodler = (e) => {
 const placePlatforms = () => {
   platformArr = [];
 
+  //starting platform
   platform = {
     img: platformImg,
     x: boardWidth / 2,
@@ -119,13 +120,16 @@ const placePlatforms = () => {
 
   platformArr.push(platform);
 
-  platform = {
-    img: platformImg,
-    x: boardWidth / 2,
-    y: boardHeight - 150,
-    width: platformWidth,
-    height: platformHeight,
-  };
+  for (let i = 0; i < 6; i++) {
+    let randomX = Math.floor((Math.random() * boardWidth * 3) / 4);
+    platform = {
+      img: platformImg,
+      x: randomX,
+      y: boardHeight - i * 75 - 150,
+      width: platformWidth,
+      height: platformHeight,
+    };
 
-  platformArr.push(platform);
+    platformArr.push(platform);
+  }
 };

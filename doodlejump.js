@@ -106,6 +106,12 @@ const update = () => {
       platform.height
     );
   }
+
+  // clear platforms and add new platform
+  while (platformArr.length > 0 && platformArr[0].y >= boardHeight) {
+    platformArr.shift();
+    newPlatform();
+  }
 };
 
 const moveDoodler = (e) => {
@@ -145,6 +151,19 @@ const placePlatforms = () => {
 
     platformArr.push(platform);
   }
+};
+
+const newPlatform = () => {
+  let randomX = Math.floor((Math.random() * boardWidth * 3) / 4);
+  platform = {
+    img: platformImg,
+    x: randomX,
+    y: -platformHeight,
+    width: platformWidth,
+    height: platformHeight,
+  };
+
+  platformArr.push(platform);
 };
 
 const detectCollision = (a, b) => {

@@ -112,6 +112,12 @@ const update = () => {
     platformArr.shift();
     newPlatform();
   }
+
+  //score
+  updateScore();
+  ctx.fillStyle = "black";
+  ctx.font = "16px sans-serif";
+  ctx.fillText(score, 5, 20);
 };
 
 const moveDoodler = (e) => {
@@ -173,4 +179,16 @@ const detectCollision = (a, b) => {
     a.y < b.y + b.height &&
     a.y + a.height > b.y
   );
+};
+
+const updateScore = () => {
+  let points = Math.floor(50 * Math.random());
+  if (verlocityY < 0) {
+    maxScore += points;
+    if (score < maxScore) {
+      score = maxScore;
+    }
+  } else if (velocityY >= 0) {
+    maxScore -= points;
+  }
 };

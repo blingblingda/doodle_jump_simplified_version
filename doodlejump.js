@@ -34,6 +34,7 @@ let gravity = 0.4;
 //scores
 let score = 0;
 let maxScore = 0;
+let gameOver = false;
 
 //Draw on the canvas
 window.onload = () => {
@@ -71,6 +72,9 @@ window.onload = () => {
 
 const update = () => {
   requestAnimationFrame(update);
+  if (gameOver) {
+    return;
+  }
   ctx.clearRect(0, 0, boardWidth, boardHeight);
 
   //draw a doodler on the canvas over and over again
@@ -82,6 +86,9 @@ const update = () => {
   }
   velocityY += gravity;
   doodler.y += velocityY;
+  if (doodler.y > board.height) {
+    gameOver = true;
+  }
   ctx.drawImage(
     doodler.img,
     doodler.x,
@@ -120,6 +127,15 @@ const update = () => {
   ctx.fillStyle = "black";
   ctx.font = "16px sans-serif";
   ctx.fillText(score, 5, 20); //position
+
+  // game over message
+  if (gameOver) {
+    ctx.fillText(
+      "Game Over: Press 'Space' to Restart",
+      boardWidth / 7,
+      (boardHeight * 7) / 8
+    );
+  }
 };
 
 const moveDoodler = (e) => {

@@ -31,19 +31,21 @@ let velocityY = 0;
 let initialVelocityY = -8;
 let gravity = 0.4;
 
+//scores
+let score = 0;
+let maxScore = 0;
+
+//Draw on the canvas
 window.onload = () => {
-  //set up the board
+  //set up the canvas
   let board = document.querySelector("#board");
   board.width = boardWidth;
   board.height = boardHeight;
   ctx = board.getContext("2d");
 
-  //draw a doodler on the canvas
+  //load images
   doodlerRightImg = new Image();
   doodlerRightImg.src = "./assets/doodler-right.png";
-  doodlerLeftImg = new Image();
-  doodlerLeftImg.src = "./assets/doodler-left.png";
-
   doodler.img = doodlerRightImg;
   doodlerRightImg.onload = () => {
     ctx.drawImage(
@@ -55,14 +57,14 @@ window.onload = () => {
     );
   };
 
-  //load platform img
+  doodlerLeftImg = new Image();
+  doodlerLeftImg.src = "./assets/doodler-left.png";
+
   platformImg = new Image();
   platformImg.src = "./assets/platform.png";
-  placePlatforms();
 
   velocityY = initialVelocityY;
-
-  //Game loop
+  placePlatforms(); //place initial platforms on the canvas
   requestAnimationFrame(update);
   document.addEventListener("keydown", moveDoodler);
 };
@@ -71,16 +73,15 @@ const update = () => {
   requestAnimationFrame(update);
   ctx.clearRect(0, 0, boardWidth, boardHeight);
 
-  //draw a doodler over and over again
-  velocityY += gravity;
-  doodler.y += velocityY;
+  //draw a doodler on the canvas over and over again
   doodler.x += velocityX;
   if (doodler.x > boardWidth) {
     doodler.x = 0;
   } else if (doodler.x + doodler.width < 0) {
     doodler.x = boardWidth;
   }
-
+  velocityY += gravity;
+  doodler.y += velocityY;
   ctx.drawImage(
     doodler.img,
     doodler.x,
@@ -89,14 +90,15 @@ const update = () => {
     doodler.height
   );
 
-  //draw platforms
+  //draw platforms on the canvas
   for (let i = 0; i < platformArr.length; i++) {
     let platform = platformArr[i];
     if (velocityY < 0 && doodler.y < (boardHeight * 3) / 4) {
-      platform.y -= initialVelocityY;
+      //doodler is moving up and higher than the 3/4 of the board height
+      platform.y -= initialVelocityY; //slide platform down
     }
     if (detectCollision(doodler, platform) && velocityY >= 0) {
-      velocityY = initialVelocityY;
+      velocityY = initialVelocityY; //go through every platform and check if it collision with the doodler and the doodler currently falling down
     }
     ctx.drawImage(
       platform.img,
@@ -113,11 +115,11 @@ const update = () => {
     newPlatform();
   }
 
-  //score
+  // score
   updateScore();
   ctx.fillStyle = "black";
   ctx.font = "16px sans-serif";
-  ctx.fillText(score, 5, 20);
+  ctx.fillText(score, 5, 20); //position
 };
 
 const moveDoodler = (e) => {
@@ -133,7 +135,6 @@ const moveDoodler = (e) => {
 
 const placePlatforms = () => {
   platformArr = [];
-
   //starting platform
   platform = {
     img: platformImg,
@@ -142,9 +143,9 @@ const placePlatforms = () => {
     width: platformWidth,
     height: platformHeight,
   };
-
   platformArr.push(platform);
 
+  //create 6 platforms randomly
   for (let i = 0; i < 6; i++) {
     let randomX = Math.floor((Math.random() * boardWidth * 3) / 4);
     platform = {
@@ -154,7 +155,6 @@ const placePlatforms = () => {
       width: platformWidth,
       height: platformHeight,
     };
-
     platformArr.push(platform);
   }
 };
@@ -168,22 +168,22 @@ const newPlatform = () => {
     width: platformWidth,
     height: platformHeight,
   };
-
   platformArr.push(platform);
 };
 
 const detectCollision = (a, b) => {
   return (
-    a.x < b.x + b.width &&
-    a.x + a.width > b.x &&
-    a.y < b.y + b.height &&
-    a.y + a.height > b.y
+    a.x < b.x + b.width && //a的左边没有超过b的右边
+    a.x + a.width > b.x && //a的右边超过了b的左边
+    a.y < b.y + b.height && //a的上边高于b的下边
+    a.y + a.height > b.y //a的下边低于b的上边
   );
 };
 
 const updateScore = () => {
   let points = Math.floor(50 * Math.random());
-  if (verlocityY < 0) {
+  if (velocityY < 0) {
+    //doodler going up
     maxScore += points;
     if (score < maxScore) {
       score = maxScore;

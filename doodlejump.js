@@ -86,7 +86,7 @@ const update = () => {
   }
   velocityY += gravity;
   doodler.y += velocityY;
-  if (doodler.y > board.height) {
+  if (doodler.y > boardHeight) {
     gameOver = true;
   }
   ctx.drawImage(
@@ -139,13 +139,28 @@ const update = () => {
 };
 
 const moveDoodler = (e) => {
-  console.log(e.code);
   if (e.code === "KeyD" || e.code === "ArrowRight") {
     velocityX = 4;
     doodler.img = doodlerRightImg;
   } else if (e.code === "KeyA" || e.code === "ArrowLeft") {
     velocityX = -4;
     doodler.img = doodlerLeftImg;
+  } else if (e.code === "Space" && gameOver) {
+    //reset
+    doodler = {
+      img: doodlerRightImg,
+      x: doodlerX,
+      y: doodlerY,
+      width: doodlerWidth,
+      height: doodlerHeight,
+    };
+
+    velocityX = 0;
+    velocityY = initialVelocityY;
+    score = 0;
+    maxScore = 0;
+    gameOver = false;
+    placePlatforms();
   }
 };
 
